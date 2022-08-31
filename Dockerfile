@@ -4,9 +4,10 @@ WORKDIR /src
 
 COPY . .
 
-RUN go build -o main
+# Compile reduced file size binary
+RUN go build -ldflags "-s -w" -o main
 
-FROM gcr.io/distroless/static-debian11
+FROM scratch
 
 COPY --from=builder /src/main src/
 
